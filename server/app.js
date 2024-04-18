@@ -132,5 +132,23 @@ async function timer() {
     console.log(Date());
     abc();
     timer();
-  }, 86400000);
+  }, 480000);
 }
+
+app.post("/getuserturns", async (req, res) => {
+  try {
+    const { id } = req.body;
+    const turns = await turn.find({ user: id });
+
+    console.log(turns);
+
+    if (turns.length > 0) {
+      res.json(turns);
+    } else {
+      res.json([]);
+    }
+  } catch (err) {
+    console.log("err" + err);
+    res.json({ err }).status(500);
+  }
+});
